@@ -20,6 +20,12 @@ resource "aws_route_table" "proje2_private_rt" {
   }
 }
 
+# Özel route table'a route ekleme
+resource "aws_route" "nat_instance_route" {
+  route_table_id         = aws_route_table.proje2_private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  instance_id            = aws_instance.nat_instance.id
+}
 
 resource "aws_route_table_association" "public_subnet_association" {
   count = length(aws_subnet.proje2_public_subnet.*.id)
